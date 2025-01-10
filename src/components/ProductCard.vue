@@ -97,10 +97,18 @@ const addToCart = async (product: Product) => {
   }
 
   try {
-    await axios.post('/carts', {
-      product_id: product.id,
-      stock: selection.value,
-    })
+    await axios.post(
+      '/carts',
+      {
+        product_id: product.id,
+        stock: selection.value,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      }
+    )
     alertStore.showAlert('Producto agregado al carrito')
   } catch (error) {
     console.error('Error al agregar el producto al carrito:', error)
