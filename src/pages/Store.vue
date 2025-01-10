@@ -1,6 +1,5 @@
 <template>
   <div class="store-view" @scroll="onScroll">
-    <h1>Tienda</h1>
     <Products />
   </div>
 </template>

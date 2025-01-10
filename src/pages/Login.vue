@@ -28,7 +28,12 @@
         </v-form>
       </v-card-text>
       <v-card-actions class="d-flex flex-column items-center mb-4">
-        <v-btn class="button" :loading="loading" variant="tonal" @click="login"
+        <v-btn
+          class="button"
+          :loading="loading"
+          :disabled="!valid"
+          variant="tonal"
+          @click="login"
           >Iniciar sesión</v-btn
         >
         <v-divider class="my-5" :thickness="3" width="100%"></v-divider>

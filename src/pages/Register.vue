@@ -5,7 +5,7 @@
         Crear una cuenta
       </v-card-title>
       <v-card-text>
-        <v-form ref="form" v-model="valid" lazy-validation>
+        <v-form v-model="valid" lazy-validation>
           <v-text-field
             v-model="name"
             label="Nombre"
@@ -49,6 +49,7 @@
         <v-btn
           class="button"
           :loading="loading"
+          :disabled="!valid"
           variant="tonal"
           @click="register"
           >Registrarte</v-btn
@@ -73,14 +74,13 @@ import axios from '@/axios'
 import type { VForm } from 'vuetify/components'
 import { useAlertStore } from '@/stores/alert'
 
-const name = ref('')
-const email = ref('')
-const password = ref('')
-const cPassword = ref('')
-const cPasswordIcon = ref('mdi-lock')
-const valid = ref(false)
-const form = ref<VForm | null>(null)
-const loading = ref(false)
+const name = ref<string>('')
+const email = ref<string>('')
+const password = ref<string>('')
+const cPassword = ref<string>('')
+const cPasswordIcon = ref<string>('mdi-lock')
+const valid = ref<boolean>(false)
+const loading = ref<boolean>(false)
 const router = useRouter()
 const alertStore = useAlertStore()
 
@@ -101,23 +101,22 @@ const cPasswordRules = [
 
 const register = async () => {
   loading.value = true
-  if (form.value?.validate()) {
-    try {
-      await axios.post('/register', {
-        name: name.value,
-        email: email.value,
-        password: password.value,
-        c_password: cPassword.value,
-      })
-      alertStore.showAlert('Cuenta registrada con éxito!.')
-      goToLogin()
-    } catch (error: any) {
-      alertStore.showAlert(
-        'Ocurrio un problema al registrar la cuenta!.',
-        'error'
-      )
-    }
+  try {
+    await axios.post('/register', {
+      name: name.value,
+      email: email.value,
+      password: password.value,
+      c_password: cPassword.value,
+    })
+    alertStore.showAlert('Cuenta registrada con éxito!.')
+    goToLogin()
+  } catch (error: any) {
+    alertStore.showAlert(
+      'Ocurrio un problema al registrar la cuenta!.',
+      'error'
+    )
   }
+
   loading.value = false
 }
 watch([password, cPassword], ([newPassword]) => {
