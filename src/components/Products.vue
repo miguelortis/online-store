@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="mb-15">
     <v-row class="mt-10">
       <ProductCard
         v-for="product in products"
