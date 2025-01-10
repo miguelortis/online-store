@@ -1,12 +1,15 @@
 <template>
   <div>
-    <v-row>
+    <v-row class="mt-10">
       <ProductCard
         v-for="product in products"
         :key="product.id"
         :product="product"
       />
     </v-row>
+    <div v-if="!loading && products.length === 0" class="no-products">
+      No se encontraron productos.
+    </div>
     <div v-if="loading" class="loading">
       <v-progress-circular
         indeterminate
@@ -40,5 +43,13 @@ onMounted(() => {
   justify-content: center;
   align-items: center;
   margin-top: 16px;
+}
+.no-products {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 16px;
+  font-size: 18px;
+  color: #888;
 }
 </style>
